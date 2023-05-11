@@ -1,0 +1,9 @@
+﻿  PhysicsSimulator.cpp
+D:\OPENGL\physx2d\physx2d\Physx2D\math\math.h(12,39): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\OPENGL\physx2d\physx2d\Physx2D\math\math.h(13,40): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\OPENGL\physx2d\physx2d\SandBox\default\PhysicsSimulator.cpp(74,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\OPENGL\physx2d\physx2d\SandBox\default\PhysicsSimulator.cpp(211,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\OPENGL\physx2d\physx2d\SandBox\default\PhysicsSimulator.cpp(217,122): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+D:\OPENGL\physx2d\physx2d\SandBox\default\PhysicsSimulator.cpp(239,62): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\OPENGL\physx2d\physx2d\SandBox\default\PhysicsSimulator.cpp(239,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  physx2d.vcxproj -> D:\OPENGL\physx2d\physx2d\x64\Debug\physx2d.exe

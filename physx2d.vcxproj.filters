@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Physx2D">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Physx2D\math">
+      <UniqueIdentifier>{dc942dd5-f7a6-4182-9ef2-2dc7ad873530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physx2D\physics">
+      <UniqueIdentifier>{2b176f88-450e-4a7b-928b-a20de5fa6840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physx2D\renderer">
+      <UniqueIdentifier>{e32a4647-9aed-498d-aaaa-de0dc5d1081a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SandBox">
+      <UniqueIdentifier>{fc38f30f-d94c-4936-934e-d16e38d51011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physx2D\window">
+      <UniqueIdentifier>{206fba13-a02e-4c0f-bc2b-0c30a788cf12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SandBox\res">
+      <UniqueIdentifier>{f6ce80ee-b396-4209-98a0-bc46b7bed8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SandBox\default">
+      <UniqueIdentifier>{37452e16-09eb-4010-913d-ded20e826c34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physx2D\utils">
+      <UniqueIdentifier>{291ff80f-2458-4cc2-8e99-c84bf83e93c6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glad.c">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\window\window.cpp">
+      <Filter>Physx2D\window</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\renderer\instancedRenderer.cpp">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\renderer\renderer2D.cpp">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\renderer\shader.cpp">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\renderer\texture.cpp">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\renderer\vao.cpp">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SandBox\default\PhysicsSimulator.cpp">
+      <Filter>SandBox\default</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Physx2D\physics\physics2d.cpp">
+      <Filter>Physx2D\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\utils\time.cpp">
+      <Filter>Physx2D\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\math\math.cpp">
+      <Filter>Physx2D\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\renderer\framebuffer.cpp">
+      <Filter>Physx2D\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\utils\components.cpp">
+      <Filter>Physx2D\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Physx2D\window\window.h">
+      <Filter>Physx2D\window</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\renderer\instancedRenderer.h">
+      <Filter>Physx2D\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\renderer\renderer2D.h">
+      <Filter>Physx2D\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\renderer\shader.h">
+      <Filter>Physx2D\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\renderer\texture.h">
+      <Filter>Physx2D\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\renderer\vao.h">
+      <Filter>Physx2D\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SandBox\default\PhysicsSimulator.h">
+      <Filter>SandBox\default</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\physx2d.h">
+      <Filter>Physx2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\utils\defaults.h">
+      <Filter>Physx2D\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\utils\components.h">
+      <Filter>Physx2D\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\physics\physics2d.h">
+      <Filter>Physx2D\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\utils\time.h">
+      <Filter>Physx2D\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\math\math.h">
+      <Filter>Physx2D\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\renderer\framebuffer.h">
+      <Filter>Physx2D\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\utils\quadtree.h">
+      <Filter>Physx2D\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SandBox\res\circle.glsl">
+      <Filter>SandBox\res</Filter>
+    </None>
+    <None Include="SandBox\res\vert.glsl">
+      <Filter>SandBox\res</Filter>
+    </None>
+    <None Include="SandBox\res\quad.glsl">
+      <Filter>SandBox\res</Filter>
+    </None>
+    <None Include="SandBox\res\frame_fs.glsl">
+      <Filter>SandBox\res</Filter>
+    </None>
+    <None Include="SandBox\res\frame_vs.glsl">
+      <Filter>SandBox\res</Filter>
+    </None>
+  </ItemGroup>
+</Project>
