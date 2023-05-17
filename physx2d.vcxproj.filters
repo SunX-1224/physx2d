@@ -14,20 +14,17 @@
     <Filter Include="Physx2D\renderer">
       <UniqueIdentifier>{e32a4647-9aed-498d-aaaa-de0dc5d1081a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SandBox">
-      <UniqueIdentifier>{fc38f30f-d94c-4936-934e-d16e38d51011}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physx2D\window">
       <UniqueIdentifier>{206fba13-a02e-4c0f-bc2b-0c30a788cf12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SandBox\res">
-      <UniqueIdentifier>{f6ce80ee-b396-4209-98a0-bc46b7bed8c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SandBox\default">
-      <UniqueIdentifier>{37452e16-09eb-4010-913d-ded20e826c34}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physx2D\utils">
       <UniqueIdentifier>{291ff80f-2458-4cc2-8e99-c84bf83e93c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physx2D\scene">
+      <UniqueIdentifier>{8cfa5806-f5b0-4f53-8863-9c9664aa269e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physx2D\utils\res">
+      <UniqueIdentifier>{5e80693b-a528-4322-902b-738935894629}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,9 +52,6 @@
     <ClCompile Include="Physx2D\renderer\vao.cpp">
       <Filter>Physx2D\renderer</Filter>
     </ClCompile>
-    <ClCompile Include="SandBox\default\PhysicsSimulator.cpp">
-      <Filter>SandBox\default</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physx2D\physics\physics2d.cpp">
       <Filter>Physx2D\physics</Filter>
@@ -71,8 +65,11 @@
     <ClCompile Include="Physx2D\renderer\framebuffer.cpp">
       <Filter>Physx2D\renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Physx2D\utils\components.cpp">
-      <Filter>Physx2D\utils</Filter>
+    <ClCompile Include="Physx2D\scene\world.cpp">
+      <Filter>Physx2D\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Physx2D\scene\entity.cpp">
+      <Filter>Physx2D\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,16 +91,10 @@
     <ClInclude Include="Physx2D\renderer\vao.h">
       <Filter>Physx2D\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="SandBox\default\PhysicsSimulator.h">
-      <Filter>SandBox\default</Filter>
-    </ClInclude>
     <ClInclude Include="Physx2D\physx2d.h">
       <Filter>Physx2D</Filter>
     </ClInclude>
     <ClInclude Include="Physx2D\utils\defaults.h">
-      <Filter>Physx2D\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Physx2D\utils\components.h">
       <Filter>Physx2D\utils</Filter>
     </ClInclude>
     <ClInclude Include="Physx2D\physics\physics2d.h">
@@ -121,22 +112,28 @@
     <ClInclude Include="Physx2D\utils\quadtree.h">
       <Filter>Physx2D\utils</Filter>
     </ClInclude>
+    <ClInclude Include="Physx2D\scene\components.h">
+      <Filter>Physx2D\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\scene\world.h">
+      <Filter>Physx2D\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\scene\ecsmanager.h">
+      <Filter>Physx2D\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Physx2D\scene\entity.h">
+      <Filter>Physx2D\scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SandBox\res\circle.glsl">
-      <Filter>SandBox\res</Filter>
+    <None Include="Physx2D\utils\res\circle.glsl">
+      <Filter>Physx2D\utils\res</Filter>
     </None>
-    <None Include="SandBox\res\vert.glsl">
-      <Filter>SandBox\res</Filter>
+    <None Include="Physx2D\utils\res\quad.glsl">
+      <Filter>Physx2D\utils\res</Filter>
     </None>
-    <None Include="SandBox\res\quad.glsl">
-      <Filter>SandBox\res</Filter>
-    </None>
-    <None Include="SandBox\res\frame_fs.glsl">
-      <Filter>SandBox\res</Filter>
-    </None>
-    <None Include="SandBox\res\frame_vs.glsl">
-      <Filter>SandBox\res</Filter>
+    <None Include="Physx2D\utils\res\vert.glsl">
+      <Filter>Physx2D\utils\res</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@ namespace Physx2D {
 
 	class Shader {
 	public:
-		unsigned int m_ID;
+		uint32_t m_ID;
 
 		Shader();
 		Shader(const char* vertexPath, const char* fragmentPath);

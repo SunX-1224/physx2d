@@ -92,6 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,10 +159,10 @@
     <ClCompile Include="Physx2D\renderer\shader.cpp" />
     <ClCompile Include="Physx2D\renderer\texture.cpp" />
     <ClCompile Include="Physx2D\renderer\vao.cpp" />
-    <ClCompile Include="Physx2D\utils\components.cpp" />
+    <ClCompile Include="Physx2D\scene\entity.cpp" />
+    <ClCompile Include="Physx2D\scene\world.cpp" />
     <ClCompile Include="Physx2D\utils\time.cpp" />
     <ClCompile Include="Physx2D\window\window.cpp" />
-    <ClCompile Include="SandBox\default\PhysicsSimulator.cpp" />
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,19 +175,19 @@
     <ClInclude Include="Physx2D\renderer\shader.h" />
     <ClInclude Include="Physx2D\renderer\texture.h" />
     <ClInclude Include="Physx2D\renderer\vao.h" />
-    <ClInclude Include="Physx2D\utils\components.h" />
+    <ClInclude Include="Physx2D\scene\components.h" />
+    <ClInclude Include="Physx2D\scene\ecsmanager.h" />
+    <ClInclude Include="Physx2D\scene\entity.h" />
+    <ClInclude Include="Physx2D\scene\world.h" />
     <ClInclude Include="Physx2D\utils\defaults.h" />
     <ClInclude Include="Physx2D\utils\quadtree.h" />
     <ClInclude Include="Physx2D\utils\time.h" />
     <ClInclude Include="Physx2D\window\window.h" />
-    <ClInclude Include="SandBox\default\PhysicsSimulator.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SandBox\res\circle.glsl" />
-    <None Include="SandBox\res\frame_fs.glsl" />
-    <None Include="SandBox\res\frame_vs.glsl" />
-    <None Include="SandBox\res\quad.glsl" />
-    <None Include="SandBox\res\vert.glsl" />
+    <None Include="Physx2D\utils\res\circle.glsl" />
+    <None Include="Physx2D\utils\res\quad.glsl" />
+    <None Include="Physx2D\utils\res\vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

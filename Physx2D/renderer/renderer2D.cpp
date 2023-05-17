@@ -5,12 +5,12 @@ namespace Physx2D {
 	Renderer2D::Renderer2D() {
 		m_vbo = 0;
 		m_ebo = 0;
-		p_indicesCount = 0;
-		m_renderMode = NULL;
+		p_count = 0;
+		m_renderMode = 0;
 	}
 
 	Renderer2D::Renderer2D(std::vector<Math::vec2> vertices, std::vector<uint32_t> indices, GLenum mode) :
-		m_renderMode(mode), p_indicesCount(indices.size())
+		m_renderMode(mode), p_count(indices.size()), arrayMode(false)
 	{
 		m_vao.bind();
 
@@ -27,6 +27,19 @@ namespace Physx2D {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	Renderer2D::Renderer2D(std::vector<Math::vec2> vertices, GLenum mode) 
+		:m_renderMode(mode), arrayMode(true), p_count(vertices.size()), m_ebo(0)
+	{
+		m_vao.bind();
+
+		glGenBuffers(1, &m_vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Math::vec2), vertices.data(), GL_STATIC_DRAW);
+
+		m_vao.unbind();
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
 	void Renderer2D::VertexData(void* data, uint32_t count, size_t size_i) {
 		m_vao.bind();
 		glBindBuffer(GL_ARRAY_BUFFER, m_ebo);
@@ -36,7 +49,7 @@ namespace Physx2D {
 	}
 
 	void Renderer2D::IndexData(void* data, uint32_t count, size_t size_i) {
-		p_indicesCount = count;
+		p_count = count;
 		m_vao.bind();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size_i * count, data, GL_STATIC_DRAW);
@@ -44,7 +57,7 @@ namespace Physx2D {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	void Renderer2D::Layout(uint32_t location, uint32_t count, GLenum type, GLsizei stride, uint32_t offset) {
+	void Renderer2D::ArrayDataLayout(uint32_t location, uint32_t count, GLenum type, GLsizei stride, uint32_t offset) {
 		m_vao.bind();
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 		m_vao.layout(location, count, type, stride, offset);
@@ -52,16 +65,20 @@ namespace Physx2D {
 		m_vao.unbind();
 	}
 
-	void Renderer2D::Draw(Shader& shader) {
+	void Renderer2D::Draw(Shader* shader) {
 		m_vao.bind();
-		shader.use();
-		glDrawElements(m_renderMode, p_indicesCount, GL_UNSIGNED_INT, 0);
+		shader->use();
+		if(arrayMode) 
+			glDrawArrays(m_renderMode, 0, p_count);
+		else
+			glDrawElements(m_renderMode, p_count, GL_UNSIGNED_INT, 0);
 		m_vao.unbind();
 	}
 
 	void Renderer2D::del(){
 		m_vao.del();
 		glDeleteBuffers(1, &m_vbo);
-		glDeleteBuffers(1, &m_ebo);
+		if(m_ebo)
+			glDeleteBuffers(1, &m_ebo);
 	}
 }

@@ -9,8 +9,8 @@ namespace Physx2D {
 	namespace Math {
 
 		const double PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062;
-		const float MAX_float = 3.40282e+038;
-		const float MIN_float = -3.40282e+038;
+		const float MAX_float = 3.40282e+038f;
+		const float MIN_float = -3.40282e+038f;
 		struct vec2 {
 			float x;
 			float y;
@@ -119,6 +119,7 @@ namespace Physx2D {
 			float h;
 
 			centerRect(float x_, float y_, float w_, float h_) :x(x_), y(y_), w(w_), h(h_) {}
+			centerRect(vec2 cen, vec2 res) :x(cen.x), y(cen.y), w(res.x), h(res.y) {}
 
 			bool contains(vec2 point) {
 				return point.x > (x - w * 0.5f) && point.x<(x + w * 0.5f) && point.y > (y - h * 0.5f) && point.y < (h * 0.5f + y);

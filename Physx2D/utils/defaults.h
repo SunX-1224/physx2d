@@ -15,16 +15,21 @@
 namespace Physx2D {
 	typedef Math::vec4 Color;
 
-	const Math::vec2 QUAD_VERTICES[4] {
+	const Math::vec2 QUAD_VERTICES[6] {
+			Math::vec2(-.5f, -.5f),
+			Math::vec2( .5f, -.5f),
+			Math::vec2(-.5f,  .5f),
+
+			Math::vec2( .5f, -.5f),
+			Math::vec2(-.5f,  .5f),
+			Math::vec2( .5f,  .5f)
+	};
+
+	const Math::vec2 UNIT_RECT[4]{
 			Math::vec2(-.5f, -.5f),
 			Math::vec2( .5f, -.5f),
 			Math::vec2( .5f,  .5f),
-			Math::vec2(-.5f,  .5f)
-	};
-
-	const uint32_t QUAD_INDICES[6] {
-		0, 1, 3,
-		1, 3, 2
+			Math::vec2(-.5f,  .5f),
 	};
 
 	const Math::vec2 TRIANGLE_VERTICES[3] {
@@ -33,8 +38,9 @@ namespace Physx2D {
 		Math::vec2( 0.000f,  1.0f)
 	};
 
-	const uint32_t TRIANGLE_INDICES[3]{
-		0, 1, 2
+	const Math::vec2 LINE_VERTICES[2]{
+		Math::vec2(0.f),
+		Math::vec2(1.0f, 0.f)
 	};
 
 	struct WindowProps {
@@ -56,9 +62,6 @@ namespace Physx2D {
 			FULLSCREEN_MODE = fullscreen;
 		}
 	};
-
-	enum BodyType { STATIC = 0, DYNAMIC };
-	enum ColliderType { CIRCLE = 0, BOX2D, BOUNDING_CIRCLE, AABB};
 
 	struct CollisionData {
 		bool status;

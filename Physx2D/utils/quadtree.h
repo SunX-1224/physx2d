@@ -82,17 +82,11 @@ namespace Physx2D {
 				NW->query(range, result);
 			}
 
-			void delChildren() {
-				if (NW != NULL) {
-					NW->delChildren();
-					SW->delChildren();
-					NE->delChildren();
-					SE->delChildren();
-					delete NW;
-					delete NE;
-					delete SE;
-					delete SW;
-				}
+			~QuadTree() {
+				delete NW;
+				delete NE;
+				delete SE;
+				delete SW;
 			}
 	};
 }

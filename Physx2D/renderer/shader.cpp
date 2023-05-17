@@ -52,11 +52,10 @@ namespace Physx2D {
 		fragShader = compile_shader(fragmentCode, GL_FRAGMENT_SHADER);
 
 		m_ID = glCreateProgram();
+		
 		glAttachShader(m_ID, vertShader);
 		glAttachShader(m_ID, fragShader);
 		glLinkProgram(m_ID);
-
-
 		{// Link status check
 			int success;
 			char infoLog[512];
@@ -81,22 +80,27 @@ namespace Physx2D {
 	}
 
 	void Shader::setBool(const char* name, bool value) {
-		glUniform1i(glGetUniformLocation(m_ID, name), (int)value);
+		if (glGetUniformLocation(m_ID, name) >= 0)
+			glUniform1i(glGetUniformLocation(m_ID, name), (int)value);
 	}
 
 	void Shader::setInt(const char* name, int value) {
-		glUniform1i(glGetUniformLocation(m_ID, name), value);
+		if (glGetUniformLocation(m_ID, name) >= 0)
+			glUniform1i(glGetUniformLocation(m_ID, name), value);
 	}
 
 	void Shader::setFloat(const char* name, float value) {
-		glUniform1f(glGetUniformLocation(m_ID, name), value);
+		if(glGetUniformLocation(m_ID, name) >= 0)
+			glUniform1f(glGetUniformLocation(m_ID, name), value);
 	}
 
 	void Shader::setVec2(const char* name, Math::vec2 vec) {
-		glUniform2f(glGetUniformLocation(m_ID, name), vec.x, vec.y);
+		if (glGetUniformLocation(m_ID, name) >= 0)
+			glUniform2f(glGetUniformLocation(m_ID, name), vec.x, vec.y);
 	}
 
 	void Shader::setMat3(const char* name, Math::mat3 mat) {
-		glUniformMatrix3fv(glGetUniformLocation(m_ID, name), 1, GL_FALSE, &mat.value[0][0]);
+		if (glGetUniformLocation(m_ID, name) >= 0)
+			glUniformMatrix3fv(glGetUniformLocation(m_ID, name), 1, GL_FALSE, &mat.value[0][0]);
 	}
 }

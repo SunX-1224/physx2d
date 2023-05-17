@@ -13,10 +13,14 @@ namespace Physx2D {
 			std::vector<uint32_t> indices,
 			GLenum mode = GL_TRIANGLES
 		);
+		InstancedRenderer(
+			std::vector<Math::vec2> vertices,
+			GLenum mode = GL_TRIANGLES
+		);
 
 		void InstanceLayout(
 			uint32_t location,
-			uint32_t num_data,
+			uint32_t count, 
 			GLenum type,
 			GLsizei stride,
 			uint32_t offset,
@@ -24,7 +28,7 @@ namespace Physx2D {
 		);
 
 		void InstanceData(void* data, uint32_t count, size_t size_i);
-		void Draw(Shader& shader);
+		void Draw(Shader* shader);
 		void del();
 
 	protected:
