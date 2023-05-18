@@ -1,131 +1,98 @@
 #include "Physx2D/physx2d.h"
 
-//#define DEBUG
-#ifdef DEBUG
-struct AllocationViewer {
-	uint32_t allocated = 0;
-	uint32_t freed = 0;
-	
-	uint32_t usage() { return allocated - freed; }
-};
-
-static AllocationViewer tracker;
-
-void printUsage() {
-	std::cout << "Usage : " << tracker.usage() << " , allocated : " << tracker.allocated << " , freed : " << tracker.freed << std::endl;
-}
-
-void* operator new(size_t size) {
-	tracker.allocated += size;
-	return malloc(size);
-}
-
-void operator delete(void* mem, size_t size) {
-	tracker.freed += size;
-	free(mem);
-}
-#endif
-
-class Gravity : public Physx2D::ScriptObject {
+class Pendulum : public Physx2D::ScriptObject {
 	public:
+		Physx2D::Math::vec2 point;
+		float length;
+		float angle;
 
-		virtual void setup() override {
-
-			Physx2D::Math::vec2 rp = Physx2D::Math::vec2(Physx2D::Math::randint(-400, 400), Physx2D::Math::randint(-400, 400));
-			Physx2D::Math::vec2 sc = Physx2D::Math::vec2(Physx2D::Math::random(1224) * 5.f + 3.f);
-
-			Physx2D::Transform* tfr = self->GetComponent<Physx2D::Transform>();
-			tfr->Position = rp;
-			tfr->Scale = sc;
-
-			self->AddComponent<Physx2D::RigidBody2D>(Physx2D::DYNAMIC, rp, Physx2D::Math::vec2(), sc.x, 0.f, 0.8f);
-			self->AddComponent<Physx2D::CircleCollider>(Physx2D::Math::vec2(), sc.x * 0.5f);
-			self->AddComponent<Physx2D::RendererComponent>(Physx2D::CIRCLE, Physx2D::Math::vec4(Physx2D::Math::random(1224), Physx2D::Math::random(1223), 0.5f, 1.f));
+		Pendulum(float length, float angle, Physx2D::Math::vec2 point = Physx2D::Math::vec2(0.f, 400.f)) {
+			this->length = length;
+			this->point = point;
+			this->angle = angle;
 		}
 
-		virtual void update() override {
-			
-			if (self->HasComponent<Physx2D::RigidBody2D>()) {
-				Physx2D::RigidBody2D* rgb = self->GetComponent<Physx2D::RigidBody2D>();
-				Physx2D::Transform* trf= self->GetComponent<Physx2D::Transform>();
-				rgb->Acceleration = Physx2D::Math::vec2(0, -100.f);
-			}
-			if (self->HasComponent<Physx2D::RendererComponent>()) {
-				Physx2D::RendererComponent* rdr1 = self->GetComponent<Physx2D::RendererComponent>();
-				rdr1->color += Physx2D::Color(-0.1f ,0.f, 0.2f, 0.f);
-			}
+		virtual void setup() override {
+			Physx2D::Math::vec2 bpos = point + Physx2D::Math::vec2(cos(angle), sin(angle)) * length;
+
+			bob = self->m_world->CreateEntity();
+			Physx2D::Transform *btrf = bob->GetComponent < Physx2D::Transform>();
+			btrf->Position = bpos;
+			btrf->Scale = 30.f;
+			bob->AddComponent<Physx2D::RigidBody2D>(Physx2D::DYNAMIC, Physx2D::Math::vec2(0.f))->coef_drag = .1f;
+			bob->AddComponent<Physx2D::RendererComponent>(Physx2D::CIRCLE, Physx2D::Color(0.f, 0.3f, 0.3f, 1.0f));
+			bob->AddComponent<Physx2D::CircleCollider>(Physx2D::Math::vec2(), btrf->Scale.x*0.5f);
+
+			wire = self->m_world->CreateEntity();
+			Physx2D::Transform* wtrf = wire->GetComponent<Physx2D::Transform>();
+			wtrf->Position = point;
+			wtrf->Scale = length;
+			wtrf->Rotation = angle;
+			wire->AddComponent<Physx2D::RendererComponent>(Physx2D::LINE, Physx2D::Color(1.f, 0.f, 0.1f, 1.0f));
+		}
+
+		virtual void update(float delta_time) override {
+
+			Physx2D::RigidBody2D* rgb = bob->GetComponent<Physx2D::RigidBody2D>();
+
+			Physx2D::Transform* btfr = bob->GetComponent<Physx2D::Transform>();
+			Physx2D::Math::vec2 del = point - btfr->Position;
+			Physx2D::Math::vec2 tension = del.normalized() * (del.length() - length) * 50.f;
+
+			rgb->Acceleration = Physx2D::Math::vec2(0.f, -100.f) + tension;
+
+			Physx2D::Transform* wtfr = wire->GetComponent<Physx2D::Transform>();
+			wtfr->Rotation = atan2(-del.y, -del.x);
+			wtfr->Scale = del.length();
 		}
 
 		virtual void OnCollisionDetected(Physx2D::CollisionData& data, Physx2D::Entity* other) {
-			Physx2D::RendererComponent* rdr1 = self->GetComponent<Physx2D::RendererComponent>();
-			Physx2D::RendererComponent* rdr2 = other->GetComponent<Physx2D::RendererComponent>();
-
-			rdr1->color += Physx2D::Color(0.05f, 0.f, -0.1f, 0.f);
-			rdr2->color += Physx2D::Color(0.05f, 0.f, -0.1f, 0.f);
+			
 		}
+	private :
+		Physx2D::Entity* bob;
+		Physx2D::Entity* wire;
+
 };
 
 int main() {
+	
+	Physx2D::Window window;
+	window.Init();
 
-	//new scope for tracking memory
+	Physx2D::World world(window);
+
+	//Bounds
 	{
-		Physx2D::Window window;
-		window.Init();
-
-		Physx2D::World world(window);
-
-#ifdef DEBUG
-		printUsage();
-#endif
-
-		for (int i = 0; i < 1500; i++) {
-			Physx2D::Entity* entity = world.CreateEntity();
-
-			Gravity* grv = new Gravity();
-			entity->AddComponent<Physx2D::ScriptComponent>(grv);
-		}
-
 		Physx2D::Entity* entity = world.CreateEntity();
 		Physx2D::Transform* tfr = entity->GetComponent<Physx2D::Transform>();
 		tfr->Scale = window.GetResolution();
 		entity->AddComponent<Physx2D::AABB>(Physx2D::Math::vec2(), tfr->Scale);
 		entity->AddComponent<Physx2D::RigidBody2D>();
 		entity->AddComponent<Physx2D::RendererComponent>(Physx2D::QUAD, Physx2D::Color(0.3f));
-
-
-#ifdef DEBUG
-		printUsage();
-#endif
-		world.Init();
-
-#ifdef DEBUG
-		printUsage();
-#endif
-
-		Physx2D::Time::initTimer();
-		while (!window.ShouldClose()) {
-			window.UpdateEvents();
-
-			world.Update(Physx2D::Time::get_delta_time());
-
-			window.FillScreen(Physx2D::Color(0.1f, 0.1f, 0.1f, 1.0f));
-			world.Render();
-
-			
-			window.Update();
-			Physx2D::Time::update();
-			window.SetTitle((std::to_string(Physx2D::Time::get_fps())).c_str());
-
-#ifdef DEBUG
-			printUsage();
-#endif
-		}
-		window.Destroy();
 	}
 
-#ifdef DEBUG
-	printUsage();
-#endif
+	Physx2D::Entity* pendulum = world.CreateEntity();
+	pendulum->AddComponent<Physx2D::ScriptComponent>(new Pendulum(400.f, -0.6f));
+
+	world.Init();
+
+	Physx2D::Time::initTimer();
+	while (!window.ShouldClose()) {
+		window.UpdateEvents();
+
+		world.Update(Physx2D::Time::get_delta_time());
+
+		window.FillScreen(Physx2D::Color(0.1f, 0.1f, 0.1f, 1.0f));
+		world.Render();
+
+			
+		window.Update();
+		Physx2D::Time::update();
+		window.SetTitle((std::to_string(Physx2D::Time::get_fps())).c_str());
+	}
+	window.Destroy();
+	
 
 	return 0;
 }

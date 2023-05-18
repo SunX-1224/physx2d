@@ -70,7 +70,7 @@ namespace Physx2D {
 		float time = TIME;
 		handleCollisions();
 		std::cout << (TIME - time) * 1000<< ", "; time = TIME;
-		handleScriptUpdate();
+		handleScriptUpdate(delta_time);
 		std::cout << (TIME - time)*1000 << ", "; time = TIME;
 		handlePhysics(delta_time);
 		std::cout << (TIME - time) *1000<< ", "; time = TIME;
@@ -143,10 +143,10 @@ namespace Physx2D {
 		return &renderers[type];
 	}
 
-	void World::handleScriptUpdate() {
+	void World::handleScriptUpdate(float delta_time) {
 		for (auto& entity : entities) {
 			if (entity->HasComponent<ScriptComponent>()) {
-				entity->GetComponent<ScriptComponent>()->script->update();
+				entity->GetComponent<ScriptComponent>()->script->update(delta_time);
 			}
 		}
 	}
@@ -226,7 +226,6 @@ namespace Physx2D {
 			if (entity->HasComponent<RendererComponent>()) {
 				Transform* trnf = entity->GetComponent<Transform>();
 				RendererComponent* rnc = entity->GetComponent<RendererComponent>();
-				Collider* cld = entity->GetComponent<Collider>();
 				renderData[rnc->type].push_back(RenderData(*trnf, rnc->color)); // TODO : can be optimized
 			}
 		}

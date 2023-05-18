@@ -1,11 +1,2 @@
-﻿  world.cpp
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(70,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(72,52): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(74,51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(76,51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(78,51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(82,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(162,49): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(243,50): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\OPENGL\physx2d\physx2d\Physx2D\scene\world.cpp(248,73): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+﻿  main.cpp
   physx2d.vcxproj -> D:\OPENGL\physx2d\physx2d\x64\Debug\physx2d.exe

@@ -8,6 +8,8 @@ namespace Physx2D {
 
 	class Entity {
 		public:
+			World* m_world = nullptr;
+
 			Entity() = default;
 			Entity(EntityID id, World* world_);
 
@@ -81,6 +83,5 @@ namespace Physx2D {
 
 		private:
 			EntityID m_ID = 0;
-			World* m_world = nullptr;
 	};
 }

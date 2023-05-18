@@ -40,7 +40,7 @@ namespace Physx2D {
 
 			std::unordered_map<uint32_t, std::vector<RenderData>> renderData;
 			
-			void handleScriptUpdate();
+			void handleScriptUpdate(float delta_time);
 			void handlePhysics(double delta_time);
 			void handleCollisions();
 			void updateRenderData();
