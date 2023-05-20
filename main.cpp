@@ -1,58 +1,80 @@
 #include "Physx2D/physx2d.h"
 
-class Pendulum : public Physx2D::ScriptObject {
-	public:
-		Physx2D::Math::vec2 point;
-		float length;
-		float angle;
+struct Link {
+	int p1;
+	int p2;
 
-		Pendulum(float length, float angle, Physx2D::Math::vec2 point = Physx2D::Math::vec2(0.f, 400.f)) {
-			this->length = length;
-			this->point = point;
-			this->angle = angle;
-		}
+	float length;
+};
+class SoftBody :public Physx2D::ScriptObject {
+private:
+	std::vector<Physx2D::Entity*> linkRen;
 
-		virtual void setup() override {
-			Physx2D::Math::vec2 bpos = point + Physx2D::Math::vec2(cos(angle), sin(angle)) * length;
+public:
+	std::vector<Physx2D::Entity*> particles;
+	std::vector<Link> links;
 
-			bob = self->m_world->CreateEntity();
-			Physx2D::Transform *btrf = bob->GetComponent < Physx2D::Transform>();
-			btrf->Position = bpos;
-			btrf->Scale = 30.f;
-			bob->AddComponent<Physx2D::RigidBody2D>(Physx2D::DYNAMIC, Physx2D::Math::vec2(0.f))->coef_drag = .1f;
-			bob->AddComponent<Physx2D::RendererComponent>(Physx2D::CIRCLE, Physx2D::Color(0.f, 0.3f, 0.3f, 1.0f));
-			bob->AddComponent<Physx2D::CircleCollider>(Physx2D::Math::vec2(), btrf->Scale.x*0.5f);
+	Physx2D::Math::vec2 pos;
+	float radius;
+	int n_particles;
 
-			wire = self->m_world->CreateEntity();
-			Physx2D::Transform* wtrf = wire->GetComponent<Physx2D::Transform>();
-			wtrf->Position = point;
-			wtrf->Scale = length;
-			wtrf->Rotation = angle;
-			wire->AddComponent<Physx2D::RendererComponent>(Physx2D::LINE, Physx2D::Color(1.f, 0.f, 0.1f, 1.0f));
-		}
+	SoftBody(Physx2D::Math::vec2 pos, float radius = 100.f ,int n_particles = 30) {
+		this->radius = radius;
+		this->pos = pos;
+		this->n_particles = n_particles;
+		particles.reserve(n_particles);
+		linkRen.reserve(n_particles);
+		links.reserve(n_particles);
+	}
 
-		virtual void update(float delta_time) override {
+	virtual void setup() override {
 
-			Physx2D::RigidBody2D* rgb = bob->GetComponent<Physx2D::RigidBody2D>();
+		float del = 2.f*Physx2D::Math::PI / n_particles;
+		for (int i = 0; i < n_particles; i++) {
+			Physx2D::Entity* ent = self->m_world->CreateEntity();
+			ent->Add_ReplaceComponent<Physx2D::Transform>(pos + Physx2D::Math::vec2(cos(del * i), sin(del * i)) * radius, Physx2D::Math::vec2(8.f));
+			ent->AddComponent<Physx2D::RendererComponent>(Physx2D::CIRCLE, Physx2D::Color(.5f, .1f, .1f, 1.0f));
+			ent->AddComponent<Physx2D::CircleCollider>(Physx2D::Math::vec2(), 4.f);
+			ent->AddComponent<Physx2D::RigidBody2D>(Physx2D::DYNAMIC, Physx2D::Math::vec2(), Physx2D::Math::vec2(), 10.f, 0.f, 1.f);
 
-			Physx2D::Transform* btfr = bob->GetComponent<Physx2D::Transform>();
-			Physx2D::Math::vec2 del = point - btfr->Position;
-			Physx2D::Math::vec2 tension = del.normalized() * (del.length() - length) * 50.f;
-
-			rgb->Acceleration = Physx2D::Math::vec2(0.f, -100.f) + tension;
-
-			Physx2D::Transform* wtfr = wire->GetComponent<Physx2D::Transform>();
-			wtfr->Rotation = atan2(-del.y, -del.x);
-			wtfr->Scale = del.length();
-		}
-
-		virtual void OnCollisionDetected(Physx2D::CollisionData& data, Physx2D::Entity* other) {
+			particles.push_back(ent);
 			
-		}
-	private :
-		Physx2D::Entity* bob;
-		Physx2D::Entity* wire;
+			links.push_back({i, (i+1)% n_particles, 50.f});
 
+
+			Physx2D::Entity* link = self->m_world->CreateEntity();
+			link->AddComponent<Physx2D::RendererComponent>(Physx2D::LINE, Physx2D::Color(0.5f));
+			linkRen.push_back(link);
+		}
+	}
+
+	virtual void update(float delta_time) override {
+		for (int i = 0; i < n_particles; i++) {
+			Physx2D::Math::vec2 pos1 = particles[links[i].p1]->GetComponent<Physx2D::Transform>()->Position;
+			Physx2D::Math::vec2 del = particles[links[i].p2]->GetComponent<Physx2D::Transform>()->Position - pos1;
+
+			
+
+			Physx2D::RigidBody2D* rgb1 = particles[links[i].p1]->GetComponent<Physx2D::RigidBody2D>();
+			Physx2D::RigidBody2D* rgb2 = particles[links[i].p2]->GetComponent<Physx2D::RigidBody2D>();
+
+			Physx2D::Math::vec2 force = del.normalized() * (del.length() - links[i].length) * 500.f;
+			
+			force += (rgb2->Velocity - rgb1->Velocity) * 80.f;
+			rgb1->Acceleration += force;
+			rgb2->Acceleration -= force;
+
+			Physx2D::Math::vec2 pos = particles[links[i].p1]->GetComponent<Physx2D::Transform>()->Position;
+			Physx2D::Math::vec2 l_vec = particles[links[i].p2]->GetComponent<Physx2D::Transform>()->Position - pos;
+
+			particles[i]->GetComponent<Physx2D::RigidBody2D>()->Acceleration += Physx2D::Math::vec2(50.f, -100.f);
+
+			Physx2D::Transform* tfr = linkRen[i]->GetComponent<Physx2D::Transform>();
+			tfr->Position = pos;
+			tfr->Scale = l_vec.length();
+			tfr->Rotation = atan2(l_vec.y, l_vec.x);
+		}
+	}
 };
 
 int main() {
@@ -71,9 +93,7 @@ int main() {
 		entity->AddComponent<Physx2D::RigidBody2D>();
 		entity->AddComponent<Physx2D::RendererComponent>(Physx2D::QUAD, Physx2D::Color(0.3f));
 	}
-
-	Physx2D::Entity* pendulum = world.CreateEntity();
-	pendulum->AddComponent<Physx2D::ScriptComponent>(new Pendulum(400.f, -0.6f));
+	world.CreateEntity()->AddComponent<Physx2D::ScriptComponent>(new SoftBody(Physx2D::Math::vec2()));
 
 	world.Init();
 

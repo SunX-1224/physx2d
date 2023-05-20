@@ -36,7 +36,7 @@ namespace Physx2D {
 			Scale = scale;
 			Rotation = rotation;
 		}
-	};
+	}; 
 
 	struct RendererComponent {
 
